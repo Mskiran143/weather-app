@@ -9,8 +9,8 @@ function App() {
 
   // Dynamic background based on weather
   let bgClass = "from-blue-400 to-indigo-600";
-  if (weather) {
-    const main = weather?.weather?.[0]?.main;
+  if (weather && weather.weather && weather.weather.length > 0) {
+    const main = weather.weather[0].main;
     if (main === "Clear") bgClass = "from-yellow-400 to-orange-500";
     else if (main === "Rain" || main === "Drizzle") bgClass = "from-blue-700 to-blue-900";
     else if (main === "Clouds") bgClass = "from-gray-400 to-gray-600";
@@ -21,7 +21,11 @@ function App() {
     <div className={`min-h-screen bg-gradient-to-r ${bgClass} text-white flex flex-col items-center p-4 transition-all duration-500`}>
       <Header />
       <SearchBar setWeather={setWeather} />
-      {weather && <WeatherCard weather={weather} />}
+      {weather && weather.weather && weather.weather.length > 0 ? (
+        <WeatherCard weather={weather} />
+      ) : (
+        <p className="mt-10 text-gray-200">Enter a city to see the weather.</p>
+      )}
       <Footer />
     </div>
   );
